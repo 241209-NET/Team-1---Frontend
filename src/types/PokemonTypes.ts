@@ -1,22 +1,22 @@
 export const PokemonTypeList = [
-  "Normal",
-  "Fire",
-  "Water",
-  "Electric",
-  "Grass",
-  "Ice",
-  "Fighting",
-  "Poison",
-  "Ground",
-  "Flying",
-  "Psychic",
-  "Bug",
-  "Rock",
-  "Ghost",
-  "Dark",
-  "Dragon",
-  "Steel",
-  "Fairy",
+  "normal",
+  "fire",
+  "water",
+  "electric",
+  "grass",
+  "ice",
+  "fighting",
+  "poison",
+  "ground",
+  "flying",
+  "psychic",
+  "bug",
+  "rock",
+  "ghost",
+  "dark",
+  "dragon",
+  "steel",
+  "fairy",
 ] as const;
 
 export type IPokemonType = (typeof PokemonTypeList)[number];
@@ -29,75 +29,75 @@ type IPokemonTypePalette = {
 };
 
 export const PokemonTypePalette: IPokemonTypePalette = {
-  Normal: {
+  normal: {
     background: "#A8A77A",
     text: "#000000",
   },
-  Fire: {
+  fire: {
     background: "#EE8130",
     text: "#FFFFFF",
   },
-  Water: {
+  water: {
     background: "#6390F0",
     text: "#FFFFFF",
   },
-  Electric: {
+  electric: {
     background: "#F7D02C",
     text: "#000000",
   },
-  Grass: {
+  grass: {
     background: "#7AC74C",
     text: "#000000",
   },
-  Ice: {
+  ice: {
     background: "#96D9D6",
     text: "#000000",
   },
-  Fighting: {
+  fighting: {
     background: "#D56723",
     text: "#FFFFFF",
   },
-  Poison: {
+  poison: {
     background: "#B97FC9",
     text: "#FFFFFF",
   },
-  Ground: {
+  ground: {
     background: "linear-gradient(180deg, #F7DE3F 50%, #AB9841 50%)",
     text: "#000000",
   },
-  Flying: {
+  flying: {
     background: "linear-gradient(180deg, #3CC7EF 50%, #BDB9B8 50%)",
     text: "#000000",
   },
-  Psychic: {
+  psychic: {
     background: "#F95587",
     text: "#FFFFFF",
   },
-  Bug: {
+  bug: {
     background: "#A6B91A",
     text: "#000000",
   },
-  Rock: {
+  rock: {
     background: "#B6A136",
     text: "#000000",
   },
-  Ghost: {
+  ghost: {
     background: "#735797",
     text: "#FFFFFF",
   },
-  Dark: {
+  dark: {
     background: "#707070",
     text: "#FFFFFF",
   },
-  Dragon: {
+  dragon: {
     background: "linear-gradient(180deg, #53A4CF 50%, #F16E57 50%)",
     text: "#000000",
   },
-  Steel: {
+  steel: {
     background: "#B7B7CE",
     text: "#000000",
   },
-  Fairy: {
+  fairy: {
     background: "#e49cc0",
     text: "#000000",
   },

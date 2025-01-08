@@ -5,7 +5,7 @@ import Typography from "@mui/material/Typography";
 export default function Navbar() {
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static" sx={{ px: 5, py: 2 }}>
+      <AppBar position="fixed" sx={{ px: 5, py: 2 }}>
         <Typography
           variant="h5"
           noWrap

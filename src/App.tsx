@@ -7,9 +7,10 @@ export default function App() {
   return (
     <Box
       sx={{
-        width: "100vw",
-        height: "100vh",
+        maxWidth: "100vw",
         background: "linear-gradient(45deg, #6bdcfe 30%, #5398ff 90%)",
+        backgroundAttachment: "fixed",
+        overflowX: "hidden",
       }}
     >
       <BrowserRouter>
@@ -18,7 +19,8 @@ export default function App() {
           <Box
             sx={{
               margin: "0 auto",
-              maxWidth: "1200px",
+              "margin-top": "4rem",
+              maxWidth: "1250px",
               padding: "1rem",
             }}
           >
