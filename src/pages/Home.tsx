@@ -16,9 +16,14 @@ import { useEffect, useState } from "react";
 import { ExpandMore } from "@mui/icons-material";
 import { MdCatchingPokemon } from "react-icons/md";
 import { GiCardRandom } from "react-icons/gi";
-import { getRandomPokemonId, IPokemonPreview } from "../types/Pokedex";
-import { capitalizeFirstLetter, fetchPokemonList } from "../util/helpers";
+import { IPokemonPreview } from "../types/Pokemon";
+import {
+  capitalizeFirstLetter,
+  fetchPokemonList,
+  getRandomPokemonId,
+} from "../util/helpers";
 import PokemonTypeDisplay from "../components/PokemonTypeDisplay";
+import { useNavigate } from "react-router";
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -28,6 +33,7 @@ export default function Home() {
   const [pokemonData, setPokemonData] = useState<IPokemonPreview[]>([]);
   const [searchOffset, setSearchOffset] = useState<number>(0);
   const SEARCH_LIMIT = 20;
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchInitialPokemon = async () => {
@@ -56,24 +62,22 @@ export default function Home() {
   };
 
   const handleSearch = () => {
-    setIsLoading(true);
-
-    // Simulated delay
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 2000);
+    // TODO: Make search display results instead of navigating to page
+    navigate(`/pokemon/${searchInput}`);
   };
 
   const handleGetRandomPokemon = () => {
-    setSearchInput(getRandomPokemonId().toString());
-    handleSearch();
+    navigate(`/pokemon/${getRandomPokemonId().toString()}`);
   };
 
   /** Load more Pokemon from PokeApi */
   const handleLoadMorePokemon = () => {
     setIsLoadingMore(true);
 
-    fetchPokemonList(searchOffset + SEARCH_LIMIT, SEARCH_LIMIT)
+    fetchPokemonList({
+      offset: searchOffset + SEARCH_LIMIT,
+      limit: SEARCH_LIMIT,
+    })
       .then((newPokemonData) => {
         setPokemonData([...pokemonData, ...newPokemonData]);
         setSearchOffset(searchOffset + SEARCH_LIMIT);
@@ -86,8 +90,12 @@ export default function Home() {
       });
   };
 
+  const handleClickPokemon = (id: number) => {
+    navigate(`/pokemon/${id}`);
+  };
+
   return (
-    <Stack sx={{ bgcolor: "#ffffff99", px: 6, py: 3 }}>
+    <Stack sx={{ bgcolor: "#ffffff", px: 6, py: 3, borderRadius: "1rem" }}>
       {/* Search box */}
       <Stack
         spacing={2}
@@ -220,9 +228,13 @@ export default function Home() {
           {isLoading ? (
             <CircularProgress size={100} />
           ) : (
-            <Grid container columnGap={2} rowGap={5} sx={{px: 3}}>
+            <Grid container columnGap={2} rowGap={5} sx={{ px: 3 }}>
               {pokemonData.map((pkmn) => (
-                <Grid key={pkmn.name} sx={{ cursor: "pointer" }}>
+                <Grid
+                  key={pkmn.name}
+                  onClick={() => handleClickPokemon(pkmn.id)}
+                  sx={{ cursor: "pointer" }}
+                >
                   <Paper sx={{ width: "200px", height: "200px" }}>
                     <img
                       src={pkmn.image}
