@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
-import { IPokemonData } from "../types/Pokemon";
+import { IPokemonData } from "../util/types/Pokemon";
 import { fetchPokemonByNameOrId } from "../util/helpers";
 
 export default function Pokemon() {

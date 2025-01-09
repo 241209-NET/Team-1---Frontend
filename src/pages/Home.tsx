@@ -11,12 +11,12 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import { IPokemonType, PokemonTypePalette } from "../types/PokemonTypes";
+import { IPokemonType, PokemonTypePalette } from "../util/types/PokemonTypes";
 import { useEffect, useState } from "react";
 import { ExpandMore } from "@mui/icons-material";
 import { MdCatchingPokemon } from "react-icons/md";
 import { GiCardRandom } from "react-icons/gi";
-import { IPokemonPreview } from "../types/Pokemon";
+import { IPokemonPreview } from "../util/types/Pokemon";
 import {
   capitalizeFirstLetter,
   fetchPokemonList,

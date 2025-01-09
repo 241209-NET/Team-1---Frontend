@@ -9,8 +9,8 @@ import {
   IPokemonPreview,
   IPokemonStat,
   IPokeSearchApiParams,
-} from "../types/Pokemon";
-import { IPokemonType } from "../types/PokemonTypes";
+} from "./types/Pokemon";
+import { IPokemonType } from "./types/PokemonTypes";
 
 /** Capitalize the first letter of a string */
 export const capitalizeFirstLetter = (str: string) => {
