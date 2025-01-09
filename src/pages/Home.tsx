@@ -108,11 +108,11 @@ export default function Home() {
             pt: 2,
             pb: 4,
             mb: 3,
+            width: "1000px",
+            borderBottom: "1px solid #e2e2e2",
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
-            width: '1000px',
-            borderBottom: "1px solid #e2e2e2",
           }}
         >
           <Stack spacing={1}>
@@ -162,7 +162,7 @@ export default function Home() {
           </Button>
         </Box>
         {/* Search filters */}
-        {/* <Accordion>
+        <Accordion sx={{ display: "none" }}>
           <AccordionSummary
             expandIcon={<ExpandMore />}
             aria-controls="advanced-search-content"
@@ -215,7 +215,7 @@ export default function Home() {
               </Grid>
             </Stack>
           </AccordionDetails>
-        </Accordion> */}
+        </Accordion>
       </Stack>
 
       {/* Results */}
