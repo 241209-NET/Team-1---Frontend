@@ -19,6 +19,7 @@ import { GiCardRandom } from "react-icons/gi";
 import { getRandomPokemonId, IPokemonPreview } from "../types/Pokedex";
 import { capitalizeFirstLetter, fetchPokemonList } from "../util/helpers";
 import PokemonTypeDisplay from "../components/PokemonTypeDisplay";
+import { useNavigate } from "react-router";
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -28,6 +29,7 @@ export default function Home() {
   const [pokemonData, setPokemonData] = useState<IPokemonPreview[]>([]);
   const [searchOffset, setSearchOffset] = useState<number>(0);
   const SEARCH_LIMIT = 20;
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchInitialPokemon = async () => {
@@ -56,17 +58,11 @@ export default function Home() {
   };
 
   const handleSearch = () => {
-    setIsLoading(true);
-
-    // Simulated delay
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 2000);
+    navigate(`/pokemon/${searchInput}`);
   };
 
   const handleGetRandomPokemon = () => {
-    setSearchInput(getRandomPokemonId().toString());
-    handleSearch();
+    navigate(`/pokemon/${getRandomPokemonId().toString()}`);
   };
 
   /** Load more Pokemon from PokeApi */
@@ -84,6 +80,10 @@ export default function Home() {
       .finally(() => {
         setIsLoadingMore(false);
       });
+  };
+
+  const handleClickPokemon = (id: number) => {
+    navigate(`/pokemon/${id}`);
   };
 
   return (
@@ -220,9 +220,13 @@ export default function Home() {
           {isLoading ? (
             <CircularProgress size={100} />
           ) : (
-            <Grid container columnGap={2} rowGap={5} sx={{px: 3}}>
+            <Grid container columnGap={2} rowGap={5} sx={{ px: 3 }}>
               {pokemonData.map((pkmn) => (
-                <Grid key={pkmn.name} sx={{ cursor: "pointer" }}>
+                <Grid
+                  key={pkmn.name}
+                  onClick={() => handleClickPokemon(pkmn.id)}
+                  sx={{ cursor: "pointer" }}
+                >
                   <Paper sx={{ width: "200px", height: "200px" }}>
                     <img
                       src={pkmn.image}

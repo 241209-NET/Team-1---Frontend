@@ -27,3 +27,11 @@ export const fetchPokemonList = async (offset = 0, limit = 20) => {
   const data = response.data.results as IPokeApiSearchResponseItem[];
   return await Promise.all(data.map((pkmn) => fetchPokemonPreview(pkmn)));
 };
+
+export const fetchPokemonByNameOrId = async (nameOrId: string) => {
+  const response = await axios.get(
+    `https://pokeapi.co/api/v2/pokemon/${nameOrId}`
+  );
+
+  return response.data;
+};
