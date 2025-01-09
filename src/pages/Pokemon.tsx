@@ -91,7 +91,6 @@ export default function Pokemon() {
                 ))}
               </Grid>
               <Grid size={12}>
-                {/* TODO: Fix audio not working */}
                 <audio controls src={pokemonData.sound} />
               </Grid>
             </Grid>
