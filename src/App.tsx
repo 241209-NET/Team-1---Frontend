@@ -3,6 +3,7 @@ import { BrowserRouter, Navigate, Route, Routes } from "react-router";
 import Home from "./pages/Home";
 import Navbar from "./components/Navbar";
 import Pokemon from "./pages/Pokemon";
+import Login from "./pages/Login";
 
 export default function App() {
   return (
@@ -28,8 +29,9 @@ export default function App() {
           >
             <Routes>
               <Route path="/" element={<Home />} />
-              <Route path="/pokemon" element={<Navigate to="/" />} />
               <Route path="/pokemon/:id" element={<Pokemon />} />
+              <Route path="login" element={<Login />} />
+              <Route path="*" element={<Navigate to="/" />} />
             </Routes>
           </Box>
         </Stack>
