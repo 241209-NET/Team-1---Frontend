@@ -239,7 +239,9 @@ export default function Home() {
                   onClick={() => handleClickPokemon(pkmn.id)}
                   sx={{ cursor: "pointer" }}
                 >
-                  <Paper sx={{ width: "200px", height: "200px" }}>
+                  <Paper
+                    sx={{ width: "200px", height: "200px", bgcolor: "#F2F2F2" }}
+                  >
                     <img
                       src={pkmn.image}
                       alt={pkmn.name}

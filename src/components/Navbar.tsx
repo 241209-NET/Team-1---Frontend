@@ -42,7 +42,11 @@ export default function Navbar() {
               Home
             </Button>
             <Box sx={{ width: "2px", height: "100%", bgcolor: "#000000" }} />
-            <Button onClick={navigateToTeam} sx={{ color: "#000000" }}>
+            <Button
+              onClick={navigateToTeam}
+              disabled={!id}
+              sx={{ color: "#000000" }}
+            >
               Team
             </Button>
           </Stack>
