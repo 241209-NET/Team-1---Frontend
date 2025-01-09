@@ -16,8 +16,12 @@ import { useEffect, useState } from "react";
 import { ExpandMore } from "@mui/icons-material";
 import { MdCatchingPokemon } from "react-icons/md";
 import { GiCardRandom } from "react-icons/gi";
-import { getRandomPokemonId, IPokemonPreview } from "../types/Pokedex";
-import { capitalizeFirstLetter, fetchPokemonList } from "../util/helpers";
+import { IPokemonPreview } from "../types/Pokemon";
+import {
+  capitalizeFirstLetter,
+  fetchPokemonList,
+  getRandomPokemonId,
+} from "../util/helpers";
 import PokemonTypeDisplay from "../components/PokemonTypeDisplay";
 import { useNavigate } from "react-router";
 
@@ -58,6 +62,7 @@ export default function Home() {
   };
 
   const handleSearch = () => {
+    // TODO: Make search display results instead of navigating to page
     navigate(`/pokemon/${searchInput}`);
   };
 
@@ -69,7 +74,10 @@ export default function Home() {
   const handleLoadMorePokemon = () => {
     setIsLoadingMore(true);
 
-    fetchPokemonList(searchOffset + SEARCH_LIMIT, SEARCH_LIMIT)
+    fetchPokemonList({
+      offset: searchOffset + SEARCH_LIMIT,
+      limit: SEARCH_LIMIT,
+    })
       .then((newPokemonData) => {
         setPokemonData([...pokemonData, ...newPokemonData]);
         setSearchOffset(searchOffset + SEARCH_LIMIT);
@@ -87,7 +95,7 @@ export default function Home() {
   };
 
   return (
-    <Stack sx={{ bgcolor: "#ffffff99", px: 6, py: 3 }}>
+    <Stack sx={{ bgcolor: "#ffffff", px: 6, py: 3, borderRadius: "1rem" }}>
       {/* Search box */}
       <Stack
         spacing={2}
