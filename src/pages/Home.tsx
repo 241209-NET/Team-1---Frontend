@@ -11,12 +11,12 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import { IPokemonType, PokemonTypePalette } from "../types/PokemonTypes";
+import { IPokemonType, PokemonTypePalette } from "../util/types/PokemonTypes";
 import { useEffect, useState } from "react";
 import { ExpandMore } from "@mui/icons-material";
 import { MdCatchingPokemon } from "react-icons/md";
 import { GiCardRandom } from "react-icons/gi";
-import { IPokemonPreview } from "../types/Pokemon";
+import { IPokemonPreview } from "../util/types/Pokemon";
 import {
   capitalizeFirstLetter,
   fetchPokemonList,
@@ -239,7 +239,9 @@ export default function Home() {
                   onClick={() => handleClickPokemon(pkmn.id)}
                   sx={{ cursor: "pointer" }}
                 >
-                  <Paper sx={{ width: "200px", height: "200px" }}>
+                  <Paper
+                    sx={{ width: "200px", height: "200px", bgcolor: "#F2F2F2" }}
+                  >
                     <img
                       src={pkmn.image}
                       alt={pkmn.name}

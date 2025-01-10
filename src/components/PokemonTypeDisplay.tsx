@@ -1,4 +1,4 @@
-import { IPokemonType, PokemonTypePalette } from "../types/PokemonTypes";
+import { IPokemonType, PokemonTypePalette } from "../util/types/PokemonTypes";
 import { Typography } from "@mui/material";
 import { capitalizeFirstLetter } from "../util/helpers";
 

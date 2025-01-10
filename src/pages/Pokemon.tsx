@@ -9,13 +9,16 @@ import {
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
-import { IPokemonData } from "../types/Pokemon";
+import { IPokemonData } from "../util/types/Pokemon";
 import { fetchPokemonByNameOrId } from "../util/helpers";
+import { useAuth } from "../util/auth/AuthContext";
+import wtpImgUrl from "../assets/whos-that-pokemon.png";
 
 export default function Pokemon() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [pokemonData, setPokemonData] = useState<IPokemonData | null>(null);
   const id = useParams().id ?? "";
+  const { id: userId } = useAuth();
 
   useEffect(() => {
     const fetchPokemon = async () => {
@@ -97,15 +100,22 @@ export default function Pokemon() {
           </Paper>
         </Stack>
 
-        <Button variant="contained" sx={{ width: "20ch" }}>
+        <Button variant="contained" disabled={!userId} sx={{ width: "20ch" }}>
           Add to My Team
         </Button>
       </Stack>
     );
   } else
     return (
-      <Box>
-        <h1>Pokemon not found</h1>
-      </Box>
+      <Stack spacing={2} sx={{ textAlign: "center", mt: 4, py: 3, px: 8 }}>
+        <Typography variant="h3">Who's that Pokémon?</Typography>
+        <img
+          src={wtpImgUrl}
+          width="1000"
+          height="550"
+          style={{ borderRadius: "0.5rem", boxShadow: "0 0 4px #00000099" }}
+        />
+        <Typography variant="h4">...we're not sure.</Typography>
+      </Stack>
     );
 }
