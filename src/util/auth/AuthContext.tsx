@@ -1,9 +1,11 @@
 import { createContext, ReactNode, useContext, useState } from "react";
+import { ITrainerLoginDTO, ITrainerRegisterDTO } from "../types/Trainer";
+import { axiosInstance } from "../axios";
 
 export type AuthContextType = {
   id: string | null;
-  register: (username: string, password: string) => void;
-  login: (username: string, password: string) => void;
+  register: (registerDTO: ITrainerRegisterDTO) => Promise<void>;
+  login: (loginDTO: ITrainerLoginDTO) => Promise<void>;
   logout: () => void;
 };
 
@@ -12,9 +14,27 @@ export const AuthContext = createContext<AuthContextType | null>(null);
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [id, setId] = useState<string | null>(null);
 
-  const register = (username: string, password: string) => {};
+  const register = async (registerDTO: ITrainerRegisterDTO) => {
+    try {
+      // TODO: Verify backend route
+      const { data } = await axiosInstance.post("/trainer", registerDTO);
+      setId(data.id);
+    } catch (err) {
+      // TODO: Display error on frontend
+      console.error(err);
+    }
+  };
 
-  const login = (username: string, password: string) => {};
+  const login = async (loginDTO: ITrainerLoginDTO) => {
+    try {
+      // TODO: Verify backend route
+      const { data } = await axiosInstance.post("/trainer/login", loginDTO);
+      setId(data.id);
+    } catch (err) {
+      // TODO: Display error on frontend
+      console.error(err);
+    }
+  };
 
   const logout = () => {
     setId(null);

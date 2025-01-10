@@ -5,6 +5,7 @@ import Navbar from "./components/Navbar";
 import Pokemon from "./pages/Pokemon";
 import Login from "./pages/Login";
 import { AuthProvider } from "./util/auth/AuthContext";
+import Register from "./pages/Register";
 
 export default function App() {
   return (
@@ -31,7 +32,8 @@ export default function App() {
             >
               <Routes>
                 <Route path="/" element={<Home />} />
-                <Route path="/pokemon/:id" element={<Pokemon />} />
+                <Route path="pokemon/:id" element={<Pokemon />} />
+                <Route path="register" element={<Register />} />
                 <Route path="login" element={<Login />} />
                 <Route path="*" element={<Navigate to="/" />} />
               </Routes>

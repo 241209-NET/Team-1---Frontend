@@ -10,21 +10,22 @@ import { useEffect, useState } from "react";
 import { useAuth } from "../util/auth/AuthContext";
 import { Link, useNavigate } from "react-router";
 
-export default function Login() {
+export default function Register() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [name, setName] = useState<string>("");
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [error, setError] = useState<string | null>(null);
-  const { id, login } = useAuth();
+  const { id, register } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
     if (!!id) navigate("/");
   }, [id]);
 
-  const handleLogin = async () => {
+  const handleRegister = async () => {
     setIsLoading(true);
-    await login({ username, password });
+    await register({ name, username, password });
     setIsLoading(false);
   };
 
@@ -53,7 +54,14 @@ export default function Login() {
             alignItems: "center",
           }}
         >
-          <Typography variant="h5">Login as a Trainer</Typography>
+          <Typography variant="h5">Register as a Trainer</Typography>
+          <TextField
+            label="Trainer Name"
+            disabled={isLoading}
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            sx={{ width: "30ch" }}
+          />
           <TextField
             label="Username"
             disabled={isLoading}
@@ -68,13 +76,13 @@ export default function Login() {
             onChange={(e) => setPassword(e.target.value)}
             sx={{ width: "30ch" }}
           />
-          <Link to="/register">Don't have an account? Register here.</Link>
+          <Link to="/login">Already have an account? Login here.</Link>
           <Button
             variant="contained"
-            onClick={handleLogin}
+            onClick={handleRegister}
             disabled={isLoading}
           >
-            Login
+            Register
           </Button>
         </Stack>
       </Paper>
