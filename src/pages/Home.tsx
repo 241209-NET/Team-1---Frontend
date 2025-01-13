@@ -116,7 +116,7 @@ export default function Home() {
           }}
         >
           <Stack spacing={1}>
-            <Typography variant="h5">Search by name or Pokédex ID:</Typography>
+            <Typography variant="h5">Search by name or Pokédex number:</Typography>
             <Stack direction="row" spacing={1} sx={{ alignItems: "center" }}>
               <Input
                 value={searchInput}
