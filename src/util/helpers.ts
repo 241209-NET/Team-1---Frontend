@@ -112,6 +112,11 @@ export const fetchPokemonByNameOrId = async (
       `https://pokeapi.co/api/v2/pokemon/${nameOrId}`
     );
 
+    const { data: speciesData } = await axios.get(data.species.url);
+    const flavorText = speciesData.flavor_text_entries.find(
+      (entry: any) => entry.language.name === "en"
+    ).flavor_text.replace("\f", " ").replace("\n", " ");
+
     return {
       id: formatPokedexId(data.id),
       name: capitalizeFirstLetter(data.name),
@@ -122,6 +127,7 @@ export const fetchPokemonByNameOrId = async (
       weight: data.weight / 10,
       stats: mapPokeApiStatsToPokemonStats(data.stats),
       abilities: mapPokeApiAbilitiesToPokemonAbilities(data.abilities),
+      flavorText,
     };
   } catch (err) {
     console.error(err);

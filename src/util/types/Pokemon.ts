@@ -30,6 +30,7 @@ export type IPokeApiPokemonResponse = {
   weight: number;
   abilities: IPokeApiAbility[];
   stats: IPokeApiPokemonStat[];
+  species: { name: string; url: string };
 };
 
 export type IPokemonPreview = {
@@ -55,4 +56,5 @@ export type IPokemonData = {
   weight: number;
   stats: IPokemonStat[];
   abilities: string[];
+  flavorText: string;
 };

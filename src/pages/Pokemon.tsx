@@ -76,8 +76,7 @@ export default function Pokemon() {
   }
 
   // TODO: Evolution chain
-  // TODO: Flavor text
-  // TODO: Display error if team is full
+  // TODO: Display error if team is full when adding
   if (pokemonData !== null) {
     return (
       <Fragment>
@@ -100,41 +99,46 @@ export default function Pokemon() {
             <span style={{ marginRight: "0.4ch" }}>{pokemonData.name}</span>
             <span style={{ color: "#616161" }}>#{pokemonData.id}</span>
           </Typography>
-          <Stack direction="row" sx={{ justifyContent: "center" }}>
-            <Paper sx={{ bgcolor: "#F2F2F2" }}>
-              <img src={pokemonData.image} width="300" height="300" />
-            </Paper>
-            <Paper sx={{ bgcolor: "#F2F2F2", width: "500px" }}>
-              <Grid container sx={{ px: 5, py: 1 }}>
-                <Grid size={6}>
-                  <Typography variant="h6">Height</Typography>
-                  <Typography>{pokemonData.height.toFixed(1)} m</Typography>
+          <Stack>
+            <Stack direction="row" sx={{ justifyContent: "center" }}>
+              <Paper sx={{ bgcolor: "#F2F2F2" }}>
+                <img src={pokemonData.image} width="300" height="300" />
+              </Paper>
+              <Paper sx={{ bgcolor: "#F2F2F2", width: "500px" }}>
+                <Grid container sx={{ px: 5, py: 1 }}>
+                  <Grid size={6}>
+                    <Typography variant="h6">Height</Typography>
+                    <Typography>{pokemonData.height.toFixed(1)} m</Typography>
+                  </Grid>
+                  <Grid size={6}>
+                    <Typography variant="h6">Abilities</Typography>
+                    {pokemonData.abilities.map((ability) => (
+                      <Typography key={ability}>{ability}</Typography>
+                    ))}
+                  </Grid>
+                  <Grid size={6}>
+                    <Typography variant="h6">Weight</Typography>
+                    <Typography>{pokemonData.weight.toFixed(1)} kg</Typography>
+                  </Grid>
+                  <Grid size={6}>
+                    <Typography variant="h6">Base Stats</Typography>
+                    {pokemonData.stats.map((stat) => (
+                      <Typography key={stat.name}>
+                        <span style={{ fontSize: "0.8rem" }}>
+                          {stat.name.toUpperCase()}
+                        </span>
+                        : {stat.value}
+                      </Typography>
+                    ))}
+                  </Grid>
+                  <Grid size={12}>
+                    <audio controls src={pokemonData.sound} />
+                  </Grid>
                 </Grid>
-                <Grid size={6}>
-                  <Typography variant="h6">Abilities</Typography>
-                  {pokemonData.abilities.map((ability) => (
-                    <Typography key={ability}>{ability}</Typography>
-                  ))}
-                </Grid>
-                <Grid size={6}>
-                  <Typography variant="h6">Weight</Typography>
-                  <Typography>{pokemonData.weight.toFixed(1)} kg</Typography>
-                </Grid>
-                <Grid size={6}>
-                  <Typography variant="h6">Base Stats</Typography>
-                  {pokemonData.stats.map((stat) => (
-                    <Typography key={stat.name}>
-                      <span style={{ fontSize: "0.8rem" }}>
-                        {stat.name.toUpperCase()}
-                      </span>
-                      : {stat.value}
-                    </Typography>
-                  ))}
-                </Grid>
-                <Grid size={12}>
-                  <audio controls src={pokemonData.sound} />
-                </Grid>
-              </Grid>
+              </Paper>
+            </Stack>
+            <Paper sx={{ bgcolor: "#F2F2F2", width: "300px", px: 2, py: 1 }}>
+              {pokemonData.flavorText}
             </Paper>
           </Stack>
           <Button
