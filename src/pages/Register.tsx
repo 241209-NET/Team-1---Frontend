@@ -15,6 +15,7 @@ export default function Register() {
   const [name, setName] = useState<string>("");
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  // TODO: Display error
   const [error, setError] = useState<string | null>(null);
   const { id, register } = useAuth();
   const navigate = useNavigate();
@@ -71,6 +72,7 @@ export default function Register() {
           />
           <TextField
             label="Password"
+            type="password"
             disabled={isLoading}
             value={password}
             onChange={(e) => setPassword(e.target.value)}

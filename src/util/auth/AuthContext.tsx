@@ -18,8 +18,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const register = async (registerDTO: ITrainerRegisterDTO) => {
     try {
-      // TODO: Verify backend route
-      const { data } = await axiosInstance.post("/trainer", registerDTO);
+      const { data } = await axiosInstance.post("trainer", registerDTO);
       setId(data.id);
       setName(data.name);
     } catch (err) {
@@ -30,7 +29,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const login = async (loginDTO: ITrainerLoginDTO) => {
     try {
-      // TODO: Verify backend route
       const { data } = await axiosInstance.post("/trainer/login", loginDTO);
       setId(data.id);
       setName(data.name);
