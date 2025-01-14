@@ -17,8 +17,9 @@ import Parallelogram from "../components/Parallelogram";
 import { getPokemonImageUrlFromId } from "../util/helpers";
 import { BiSolidNoEntry } from "react-icons/bi";
 import { CiEdit } from "react-icons/ci";
-import { useNavigate } from "react-router";
+import { Navigate, useNavigate } from "react-router";
 import { MdMenuBook } from "react-icons/md";
+import { axiosInstance } from "../util/axios";
 
 export default function Team() {
   const { id: trainerId, name: trainerName } = useAuth();
@@ -31,22 +32,29 @@ export default function Team() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // TODO: Fetch team from API
     const fetchTeam = async () => {
-      setTeam([
-        { id: 1, number: 1, species: "Bulbasaur", name: "Bulby" },
-        { id: 2, number: 4, species: "Charmander", name: "Charlie" },
-        { id: 3, number: 7, species: "Squirtle", name: "Squirt" },
-      ]);
+      try {
+        const { data } = await axiosInstance.get(
+          `/trainer/team/${trainerName}`
+        );
+        setTeam(data[0].team);
+      } catch (err) {
+        console.error(err);
+      }
     };
 
     fetchTeam();
     setLoading(false);
   }, []);
 
-  const handleRemovePokemon = (id: number) => {
-    // TODO: Remove Pokemon from team in API
-    setTeam(team.filter((pokemon) => pokemon.id !== id));
+  const handleRemovePokemon = async (id: number) => {
+    try {
+      const { data } = await axiosInstance.delete(`/pokemon/delete/${id}`);
+      console.info(data);
+      setTeam(team.filter((pokemon) => pokemon.id !== id));
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   const handleOpenDialog = () => {
@@ -61,27 +69,57 @@ export default function Team() {
     }, 100);
   };
 
-  const handleSaveRename = () => {
-    // TODO: Save new nickname to API
-    handleCloseDialog();
+  const handleSaveRename = async () => {
+    try {
+      const { data } = await axiosInstance.patch("/pokemon/update", {
+        id: renameDialogPokemon!.id,
+        name: renameDialogInput,
+      });
+      console.info(data);
+      setTeam(
+        team.map((pokemon) =>
+          pokemon.id === renameDialogPokemon!.id
+            ? { ...pokemon, name: renameDialogInput }
+            : pokemon
+        )
+      );
+    } catch (err) {
+      console.error(err);
+    } finally {
+      handleCloseDialog();
+    }
   };
 
   const handleViewInPokedex = (pokedexId: number) => {
     navigate(`/pokemon/${pokedexId}`);
   };
 
-  // TODO: Redirect to login page if not logged in
+  if (!trainerId) return <Navigate to="/login" />;
 
   return (
     <Fragment>
-      <Stack sx={{ mt: 4 }} spacing={2}>
-        <Typography variant="h4" sx={{ textAlign: "center" }}>
+      <Stack
+        spacing={2}
+        sx={{
+          mt: 2,
+          py: 2,
+          borderRadius: "1rem",
+          alignitems: "center",
+          width: "1000px",
+          height: "800px",
+          bgcolor: "#ffffff",
+        }}
+      >
+        <Typography
+          variant="h4"
+          sx={{ textAlign: "center", fontWeight: "bold" }}
+        >
           {trainerName ?? "Trainer"}'s Team
         </Typography>
         {loading ? (
           <CircularProgress size={100} />
         ) : (
-          <Stack spacing={0.5}>
+          <Stack spacing={1} sx={{ alignItems: "center" }}>
             {team.map((pokemon) => (
               <Stack
                 key={pokemon.id}
@@ -103,22 +141,48 @@ export default function Team() {
                 </Tooltip>
                 <Parallelogram
                   angle={-15}
-                  sx={{ bgcolor: "#f2f2f2", px: 3, width: "400px" }}
+                  sx={{
+                    bgcolor: "#f2f2f2",
+                    px: 3,
+                    boxShadow: 3,
+                  }}
                 >
                   <Stack
                     direction="row"
                     spacing={2.5}
                     sx={{ alignItems: "center" }}
                   >
-                    <Box sx={{ display: "flex", alignItems: "center" }}>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        transition: "transform 0.2s",
+                        "&:hover": { transform: "scale(1.1)" },
+                      }}
+                    >
                       <img
-                        src={getPokemonImageUrlFromId(pokemon.number)}
+                        src={getPokemonImageUrlFromId(pokemon.dexNumber)}
                         width="90"
                         height="90"
                       />
                     </Box>
-                    <Stack>
-                      <Typography variant="h4">{pokemon.name}</Typography>
+                    <Stack
+                      sx={{
+                        borderLeft: "1px solid #000000",
+                        paddingLeft: "1rem",
+                        width: "40ch",
+                      }}
+                    >
+                      <Typography
+                        variant="h4"
+                        sx={{
+                          whiteSpace: "nowrap",
+                          overflow: "hidden",
+                          textOverflow: "ellipsis",
+                        }}
+                      >
+                        {pokemon.name}
+                      </Typography>
                       <Typography variant="h6">{pokemon.species}</Typography>
                     </Stack>
                   </Stack>
@@ -147,7 +211,7 @@ export default function Team() {
                     <Box>
                       <MdMenuBook
                         size={32}
-                        onClick={() => handleViewInPokedex(pokemon.number)}
+                        onClick={() => handleViewInPokedex(pokemon.dexNumber)}
                         style={{ cursor: "pointer", color: "#000000" }}
                       />
                     </Box>

@@ -31,15 +31,15 @@ export default function Pokemon() {
     const fetchPokemon = async () => {
       setIsLoading(true);
       setPokemonData(await fetchPokemonByNameOrId(id));
-
-      setTimeout(() => {
-        setDialogInput(pokemonData?.name ?? "");
-      }, 200);
       setIsLoading(false);
     };
 
     fetchPokemon();
   }, [id]);
+
+  useEffect(() => {
+    setDialogInput(pokemonData?.name ?? "");
+  }, [pokemonData]);
 
   const handleOpenDialog = () => {
     setDialogOpen(true);
