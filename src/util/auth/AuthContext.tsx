@@ -1,6 +1,7 @@
 import { createContext, ReactNode, useContext, useState } from "react";
 import { ITrainerLoginDTO, ITrainerRegisterDTO } from "../types/Trainer";
 import { axiosInstance } from "../axios";
+import { useNavigate } from "react-router";
 
 export type AuthContextType = {
   id: string | null;
@@ -15,12 +16,14 @@ export const AuthContext = createContext<AuthContextType | null>(null);
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [id, setId] = useState<string | null>(null);
   const [name, setName] = useState<string | null>(null);
+  const navigate = useNavigate();
 
   const register = async (registerDTO: ITrainerRegisterDTO) => {
     try {
       const { data } = await axiosInstance.post("trainer", registerDTO);
       setId(data.id);
       setName(data.name);
+      navigate("/");
     } catch (err) {
       // TODO: Display error on frontend
       console.error(err);
