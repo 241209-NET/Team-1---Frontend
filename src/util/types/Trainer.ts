@@ -17,7 +17,7 @@ export type IAddPokemonDTO = {
 
 export type ITrainerPokemon = {
   id: number;
-  number: number;
+  dexNumber: number;
   species: string;
   name: string;
 };

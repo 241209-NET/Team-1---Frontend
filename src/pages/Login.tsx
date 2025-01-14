@@ -14,6 +14,7 @@ export default function Login() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  // TODO: Display error
   const [error, setError] = useState<string | null>(null);
   const { id, login } = useAuth();
   const navigate = useNavigate();
@@ -63,6 +64,7 @@ export default function Login() {
           />
           <TextField
             label="Password"
+            type="password"
             disabled={isLoading}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
