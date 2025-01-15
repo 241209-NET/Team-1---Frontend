@@ -91,6 +91,7 @@ export default function Pokemon() {
             minHeight: "800px",
             px: "3rem",
             py: "2rem",
+            mt: 3,
             alignItems: "center",
             borderRadius: "1rem",
           }}
@@ -107,7 +108,7 @@ export default function Pokemon() {
               <Paper sx={{ bgcolor: "#F2F2F2" }}>
                 <img src={pokemonData.image} width="300" height="300" />
               </Paper>
-              <Paper sx={{ bgcolor: "#F2F2F2", width: "500px" }}>
+              <Paper sx={{ bgcolor: "#FAFAFA", width: "500px" }}>
                 <Grid container sx={{ px: 5, py: 1 }}>
                   <Grid size={6}>
                     <Typography variant="h6">Height</Typography>
@@ -140,7 +141,7 @@ export default function Pokemon() {
                 </Grid>
               </Paper>
             </Stack>
-            <Paper sx={{ bgcolor: "#F2F2F2", width: "300px", px: 2, py: 1 }}>
+            <Paper sx={{ bgcolor: "#FAFAFA", width: "300px", px: 2, py: 1 }}>
               {pokemonData.flavorText}
             </Paper>
           </Stack>

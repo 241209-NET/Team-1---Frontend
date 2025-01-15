@@ -7,6 +7,7 @@ import {
   CircularProgress,
   Grid2 as Grid,
   Input,
+  Pagination,
   Paper,
   Stack,
   Typography,
@@ -21,17 +22,17 @@ import {
   capitalizeFirstLetter,
   fetchPokemonList,
   getRandomPokemonId,
+  MAX_POKEMON_ID,
 } from "../util/helpers";
 import PokemonTypeDisplay from "../components/PokemonTypeDisplay";
 import { useNavigate } from "react-router";
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [isLoadingMore, setIsLoadingMore] = useState<boolean>(false);
   const [searchInput, setSearchInput] = useState<string>("");
   const [selectedTypes, setSelectedTypes] = useState<IPokemonType[]>([]);
   const [pokemonData, setPokemonData] = useState<IPokemonPreview[]>([]);
-  const [searchOffset, setSearchOffset] = useState<number>(0);
+  const [page, setPage] = useState<number>(1);
   const SEARCH_LIMIT = 20;
   const navigate = useNavigate();
 
@@ -40,9 +41,7 @@ export default function Home() {
       setIsLoading(true);
 
       try {
-        const pokemonData = await fetchPokemonList();
-
-        setPokemonData(pokemonData);
+        setPokemonData(await fetchPokemonList());
       } catch (error) {
         console.error(error);
       }
@@ -53,6 +52,19 @@ export default function Home() {
     fetchInitialPokemon();
   }, []);
 
+  useEffect(() => {
+    fetchPokemonList({
+      offset: (page - 1) * SEARCH_LIMIT,
+      limit: SEARCH_LIMIT,
+    })
+      .then((newPokemonData) => {
+        setPokemonData(newPokemonData);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, [page]);
+
   const handleToggleType = (type: IPokemonType) => {
     if (selectedTypes.includes(type)) {
       setSelectedTypes(selectedTypes.filter((t) => t !== type));
@@ -62,7 +74,6 @@ export default function Home() {
   };
 
   const handleSearch = () => {
-    // TODO: Make search display results instead of navigating to page
     navigate(`/pokemon/${searchInput}`);
   };
 
@@ -70,32 +81,12 @@ export default function Home() {
     navigate(`/pokemon/${getRandomPokemonId().toString()}`);
   };
 
-  /** Load more Pokemon from PokeApi */
-  const handleLoadMorePokemon = () => {
-    setIsLoadingMore(true);
-
-    fetchPokemonList({
-      offset: searchOffset + SEARCH_LIMIT,
-      limit: SEARCH_LIMIT,
-    })
-      .then((newPokemonData) => {
-        setPokemonData([...pokemonData, ...newPokemonData]);
-        setSearchOffset(searchOffset + SEARCH_LIMIT);
-      })
-      .catch((error) => {
-        console.error(error);
-      })
-      .finally(() => {
-        setIsLoadingMore(false);
-      });
-  };
-
   const handleClickPokemon = (id: number) => {
     navigate(`/pokemon/${id}`);
   };
 
   return (
-    <Stack sx={{ bgcolor: "#ffffff", px: 6, py: 3, borderRadius: "1rem" }}>
+    <Stack sx={{ bgcolor: "#ffffff", px: 6, py: 3, mt: 3, borderRadius: "1rem" }}>
       {/* Search box */}
       <Stack
         spacing={2}
@@ -116,7 +107,9 @@ export default function Home() {
           }}
         >
           <Stack spacing={1}>
-            <Typography variant="h5">Search by name or Pokédex number:</Typography>
+            <Typography variant="h5">
+              Search by name or Pokédex number:
+            </Typography>
             <Stack direction="row" spacing={1} sx={{ alignItems: "center" }}>
               <Input
                 value={searchInput}
@@ -249,7 +242,16 @@ export default function Home() {
                       width="auto"
                     />
                   </Paper>
-                  <Typography variant="h6" sx={{ textAlign: "center" }}>
+                  <Typography
+                    variant="h6"
+                    sx={{
+                      maxWidth: "200px",
+                      textAlign: "center",
+                      textOverflow: "ellipsis",
+                      overflow: "hidden",
+                      whiteSpace: "nowrap",
+                    }}
+                  >
                     {capitalizeFirstLetter(pkmn.name)}
                   </Typography>
                   <Stack
@@ -267,9 +269,12 @@ export default function Home() {
           )}
         </Box>
       </Stack>
-      <Button onClick={handleLoadMorePokemon} disabled={isLoadingMore}>
-        {isLoadingMore ? <CircularProgress size={20} /> : "Load More"}
-      </Button>
+      <Pagination
+        variant="outlined"
+        count={Math.floor(MAX_POKEMON_ID / SEARCH_LIMIT)}
+        onChange={(_e, page) => setPage(page)}
+        sx={{ mx: "auto" }}
+      />
     </Stack>
   );
 }
