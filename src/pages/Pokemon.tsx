@@ -18,6 +18,7 @@ import { fetchPokemonByNameOrId } from "../util/helpers";
 import { useAuth } from "../util/auth/AuthContext";
 import wtpImgUrl from "../assets/whos-that-pokemon.png";
 import { axiosInstance } from "../util/axios";
+import { useSnackAlert } from "../components/SnackAlert";
 
 export default function Pokemon() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -26,6 +27,7 @@ export default function Pokemon() {
   const [dialogOpen, setDialogOpen] = useState<boolean>(false);
   const id = useParams().id ?? "";
   const { id: trainerId } = useAuth();
+  const { SnackAlert, alert } = useSnackAlert();
 
   useEffect(() => {
     const fetchPokemon = async () => {
@@ -61,9 +63,11 @@ export default function Pokemon() {
         trainerID: trainerId,
       });
       console.info(res.data);
+      alert.setSuccess(`Added ${dialogInput} to your team!`);
       handleCloseDialog();
     } catch (err) {
       console.error(err);
+      alert.setError("Failed to add to your team, max team size is 6");
     }
   };
 
@@ -76,7 +80,6 @@ export default function Pokemon() {
   }
 
   // TODO: Evolution chain
-  // TODO: Display error if team is full when adding
   if (pokemonData !== null) {
     return (
       <Fragment>
@@ -176,6 +179,7 @@ export default function Pokemon() {
             </Stack>
           </DialogContent>
         </Dialog>
+        <SnackAlert />
       </Fragment>
     );
   } else

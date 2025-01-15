@@ -6,8 +6,8 @@ import { useNavigate } from "react-router";
 export type AuthContextType = {
   id: string | null;
   name: string | null;
-  register: (registerDTO: ITrainerRegisterDTO) => Promise<void>;
-  login: (loginDTO: ITrainerLoginDTO) => Promise<void>;
+  register: (registerDTO: ITrainerRegisterDTO) => Promise<boolean>;
+  login: (loginDTO: ITrainerLoginDTO) => Promise<boolean>;
   logout: () => void;
 };
 
@@ -24,9 +24,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setId(data.id);
       setName(data.name);
       navigate("/");
+      return true;
     } catch (err) {
-      // TODO: Display error on frontend
       console.error(err);
+      return false;
     }
   };
 
@@ -35,9 +36,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       const { data } = await axiosInstance.post("/trainer/login", loginDTO);
       setId(data.id);
       setName(data.name);
+      return true;
     } catch (err) {
-      // TODO: Display error on frontend
       console.error(err);
+      return false;
     }
   };
 

@@ -9,16 +9,16 @@ import {
 import { useEffect, useState } from "react";
 import { useAuth } from "../util/auth/AuthContext";
 import { Link, useNavigate } from "react-router";
+import { useSnackAlert } from "../components/SnackAlert";
 
 export default function Register() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [name, setName] = useState<string>("");
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  // TODO: Display error
-  const [error, setError] = useState<string | null>(null);
   const { id, register } = useAuth();
   const navigate = useNavigate();
+  const { SnackAlert, alert } = useSnackAlert();
 
   useEffect(() => {
     if (!!id) navigate("/");
@@ -26,7 +26,8 @@ export default function Register() {
 
   const handleRegister = async () => {
     setIsLoading(true);
-    await register({ name, username, password });
+    const success = await register({ name, username, password });
+    if (!success) alert.setError("Failed to register");
     setIsLoading(false);
   };
 
@@ -88,6 +89,7 @@ export default function Register() {
           </Button>
         </Stack>
       </Paper>
+      <SnackAlert />
     </Box>
   );
 }
