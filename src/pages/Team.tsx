@@ -94,7 +94,7 @@ export default function Team() {
     navigate(`/pokemon/${pokedexId}`);
   };
 
-  // if (!trainerId) return <Navigate to="/login" />;
+  if (!trainerId) return <Navigate to="/login" />;
 
   return (
     <Fragment>
