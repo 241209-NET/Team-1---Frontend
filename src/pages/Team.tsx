@@ -219,6 +219,17 @@ export default function Team() {
                 </Stack>
               </Stack>
             ))}
+            {Array.from({ length: 6 - team.length }).map((_, index) => (
+              <Parallelogram
+                key={index}
+                angle={-15}
+                sx={{
+                  bgcolor: "#f2f2f2",
+                  px: 3,
+                  boxShadow: 3,
+                }}
+              />
+            ))}
           </Stack>
         )}
       </Stack>

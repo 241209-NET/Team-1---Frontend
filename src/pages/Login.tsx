@@ -9,15 +9,15 @@ import {
 import { useEffect, useState } from "react";
 import { useAuth } from "../util/auth/AuthContext";
 import { Link, useNavigate } from "react-router";
+import { useSnackAlert } from "../components/SnackAlert";
 
 export default function Login() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  // TODO: Display error
-  const [error, setError] = useState<string | null>(null);
   const { id, login } = useAuth();
   const navigate = useNavigate();
+  const { SnackAlert, alert } = useSnackAlert();
 
   useEffect(() => {
     if (!!id) navigate("/");
@@ -25,7 +25,12 @@ export default function Login() {
 
   const handleLogin = async () => {
     setIsLoading(true);
-    await login({ username, password });
+    const success = await login({ username, password });
+    if (!success) {
+      alert.setError(
+        "Failed to login, ensure your username and password are valid"
+      );
+    }
     setIsLoading(false);
   };
 
@@ -80,6 +85,7 @@ export default function Login() {
           </Button>
         </Stack>
       </Paper>
+      <SnackAlert />
     </Box>
   );
 }
