@@ -94,7 +94,7 @@ export default function Team() {
     navigate(`/pokemon/${pokedexId}`);
   };
 
-  if (!trainerId) return <Navigate to="/login" />;
+  // if (!trainerId) return <Navigate to="/login" />;
 
   return (
     <Fragment>
@@ -145,6 +145,7 @@ export default function Team() {
                     bgcolor: "#f2f2f2",
                     px: 3,
                     boxShadow: 3,
+                    width: "500px",
                   }}
                 >
                   <Stack
@@ -227,6 +228,8 @@ export default function Team() {
                   bgcolor: "#f2f2f2",
                   px: 3,
                   boxShadow: 3,
+                  height: "90px",
+                  width: "500px",
                 }}
               />
             ))}
