@@ -91,6 +91,7 @@ export default function Pokemon() {
             minHeight: "800px",
             px: "3rem",
             py: "2rem",
+            mt: 3,
             alignItems: "center",
             borderRadius: "1rem",
           }}

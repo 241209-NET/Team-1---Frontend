@@ -86,7 +86,7 @@ export default function Home() {
   };
 
   return (
-    <Stack sx={{ bgcolor: "#ffffff", px: 6, py: 3, borderRadius: "1rem" }}>
+    <Stack sx={{ bgcolor: "#ffffff", px: 6, py: 3, mt: 3, borderRadius: "1rem" }}>
       {/* Search box */}
       <Stack
         spacing={2}
