@@ -1,0 +1,15 @@
+version: '3.4'
+
+services:
+  project-2:
+    env_file:
+      - path: .env
+    image: revature:project-2
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    environment:
+      NODE_ENV: production
+      VITE_API_URL: ${VITE_API_URL}
+    ports:
+      - 3000:3000
