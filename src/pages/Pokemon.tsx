@@ -173,7 +173,11 @@ export default function Pokemon() {
                 <Button variant="outlined" onClick={handleCloseDialog}>
                   Cancel
                 </Button>
-                <Button variant="contained" onClick={handleAddPokemonToTeam}>
+                <Button
+                  variant="contained"
+                  disabled={!dialogInput.trim()}
+                  onClick={handleAddPokemonToTeam}
+                >
                   Save
                 </Button>
               </Stack>
