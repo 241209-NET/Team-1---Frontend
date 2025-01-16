@@ -1,6 +1,7 @@
 import { createContext, ReactNode, useContext, useState } from "react";
 import { ITrainerLoginDTO, ITrainerRegisterDTO } from "../types/Trainer";
 import { axiosInstance } from "../axios";
+import useLocalStorage from "../hooks/useLocalStorage";
 
 export type AuthContextType = {
   id: string | null;
@@ -14,8 +15,8 @@ export type AuthContextType = {
 export const AuthContext = createContext<AuthContextType | null>(null);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [id, setId] = useState<string | null>(null);
-  const [name, setName] = useState<string | null>(null);
+  const [id, setId] = useLocalStorage<string | null>("id", null);
+  const [name, setName] = useLocalStorage<string | null>("name", null);
 
   const register = async (registerDTO: ITrainerRegisterDTO) => {
     try {
