@@ -1,11 +1,11 @@
 import { createContext, ReactNode, useContext, useState } from "react";
 import { ITrainerLoginDTO, ITrainerRegisterDTO } from "../types/Trainer";
 import { axiosInstance } from "../axios";
-import { useNavigate } from "react-router";
 
 export type AuthContextType = {
   id: string | null;
   name: string | null;
+  setName: (name: string) => void;
   register: (registerDTO: ITrainerRegisterDTO) => Promise<boolean>;
   login: (loginDTO: ITrainerLoginDTO) => Promise<boolean>;
   logout: () => void;
@@ -16,14 +16,14 @@ export const AuthContext = createContext<AuthContextType | null>(null);
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [id, setId] = useState<string | null>(null);
   const [name, setName] = useState<string | null>(null);
-  const navigate = useNavigate();
 
   const register = async (registerDTO: ITrainerRegisterDTO) => {
     try {
-      const { data } = await axiosInstance.post("trainer", registerDTO);
-      setId(data.id);
-      setName(data.name);
-      navigate("/");
+      await axiosInstance.post("trainer", registerDTO);
+      await login({
+        username: registerDTO.username,
+        password: registerDTO.password,
+      });
       return true;
     } catch (err) {
       console.error(err);
@@ -48,7 +48,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <AuthContext.Provider value={{ id, name, register, login, logout }}>
+    <AuthContext.Provider
+      value={{ id, name, setName, register, login, logout }}
+    >
       {children}
     </AuthContext.Provider>
   );
