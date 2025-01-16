@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useContext, useState } from "react";
+import { createContext, ReactNode, useContext } from "react";
 import { ITrainerLoginDTO, ITrainerRegisterDTO } from "../types/Trainer";
 import { axiosInstance } from "../axios";
 import useLocalStorage from "../hooks/useLocalStorage";
