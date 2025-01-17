@@ -156,7 +156,7 @@ export default function Pokemon() {
         </Stack>
         <Dialog open={dialogOpen} onClose={handleCloseDialog}>
           <DialogTitle>
-            What would you like to name you {pokemonData?.name}?
+            What would you like to name your {pokemonData?.name}?
           </DialogTitle>
           <DialogContent>
             <Stack spacing={3}>
